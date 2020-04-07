@@ -7,15 +7,25 @@
  *    it runs? Run the code using `node challenge2.js` and verify that your
  *    expectation was correct.
  * 
+ *      Hello there, Ducky
+ *      MAKE SCHOOL IS AWESOME!!!
+ *    
  * 
  * 2. What happens if greet() fails? Make it fail by changing 'name' to a number
  *    instead of a string. What happens? Does uppercaser() still run?
  * 
+ *      It prints:
+ * 
+ *      Received an error!
+ *      Name must be a string!
+ * 
+ *      Uppercase does not run
  * 
  * 3. What happens if greet() succeeds and uppercaser() fails? Modify your code
  *    to achieve this result by changing the values of 'name' and 'my_str' and
  *    run the code again.
  * 
+ *      It resolves the first promise and prints, but catches an error on uppercase()
  * 
  * 4. Write a method that takes a string as input and returns the input string
  *    with a space added between each character. E.g. 'foo' -> 'f o o'
@@ -63,8 +73,20 @@ function uppercaser(str) {
     });
 }
 
+function spacer(str) {
+    return new Promise(function (resolve, reject) {
+      setTimeout(function() {
+        if (typeof str === 'string') {
+          resolve(str.split('').join(' '));
+        } else {
+          reject('Argument must be a string')
+        }
+      }, 1000);
+    });
+}
+
 name = 'Ducky'
-my_str = 'Make School is Awesome!!!'
+my_str = 'MAKE SCHOOL IS AWESOME!!!'
 
 greet(name)
     .then((greetResult) => {
@@ -73,6 +95,10 @@ greet(name)
     })
     .then((uppercaserResult) => {
         console.log(uppercaserResult)
+        return spacer(uppercaserResult);
+    })
+    .then((result) => {
+        console.log(result);
     }).catch((err) => {
         console.log('Received an error!')
         console.log(err);
